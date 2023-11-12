@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bMR-2m-bo5">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Task Master View Controller-->
+        <!--Task Master-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="TaskMasterViewController" customModule="TaskMasterUIKit" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8W0-Vt-qJK">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="90" id="uUH-IS-Vx4" userLabel="Cell" customClass="TaskItemTableViewCell" customModule="TaskMasterUIKit" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="393" height="90"/>
@@ -92,13 +92,41 @@
                             <constraint firstItem="8W0-Vt-qJK" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ovP-AI-a5J"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Task Master" largeTitleDisplayMode="always" id="FA1-mp-pBV">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="dfI-Xy-kEJ">
+                            <connections>
+                                <action selector="onBarButtonEditPressed:" destination="BYZ-38-t0r" id="ifj-qJ-NTk"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="jRY-Ap-3hu"/>
+                    </navigationItem>
                     <connections>
+                        <outlet property="barButtonAdd" destination="jRY-Ap-3hu" id="IFO-cZ-Jhw"/>
+                        <outlet property="barButtonEdit" destination="dfI-Xy-kEJ" id="cLt-jh-dPa"/>
                         <outlet property="taskItemsTableView" destination="8W0-Vt-qJK" id="rXK-6A-Lqh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="266" y="81"/>
+            <point key="canvasLocation" x="-989" y="-4"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gF2-HB-pos">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bMR-2m-bo5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="11u-mi-pix">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="h6U-CO-A73"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J0h-WD-5SE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1851" y="-4"/>
         </scene>
     </scenes>
     <resources>
