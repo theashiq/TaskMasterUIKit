@@ -51,7 +51,7 @@
                                                         <constraint firstAttribute="width" constant="25" id="5hA-QJ-PCt"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Added 7 days ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UiK-tp-TcS" userLabel="LabelTime">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Added 7 days ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UiK-tp-TcS" userLabel="LabelDeadline">
                                                     <rect key="frame" x="52" y="58" width="300" height="19"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <nil key="textColor"/>
@@ -76,7 +76,7 @@
                                         <connections>
                                             <outlet property="buttonToggleCompletion" destination="dRj-g7-6yu" id="FVv-nM-2py"/>
                                             <outlet property="imageAlarm" destination="avS-6t-dVE" id="HeS-Jn-4n1"/>
-                                            <outlet property="labelTime" destination="UiK-tp-TcS" id="csH-dx-KKJ"/>
+                                            <outlet property="labelDeadline" destination="UiK-tp-TcS" id="csH-dx-KKJ"/>
                                             <outlet property="labelTitle" destination="FVC-Ke-M4j" id="TZY-zc-gbc"/>
                                         </connections>
                                     </tableViewCell>
@@ -98,7 +98,11 @@
                                 <action selector="onBarButtonEditPressed:" destination="BYZ-38-t0r" id="ifj-qJ-NTk"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="jRY-Ap-3hu"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="jRY-Ap-3hu">
+                            <connections>
+                                <segue destination="E6y-Wj-lUd" kind="presentation" identifier="Segue_AddTask" id="rXs-4Q-54a"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="barButtonAdd" destination="jRY-Ap-3hu" id="IFO-cZ-Jhw"/>
@@ -127,6 +131,62 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J0h-WD-5SE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1851" y="-4"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="Oo8-k7-yWz">
+            <objects>
+                <tableViewController id="E6y-Wj-lUd" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Ia4-4Z-2CD">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <sections>
+                            <tableViewSection headerTitle="What's the task?" id="Tgp-M7-We0">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="DOi-FJ-CPU">
+                                        <rect key="frame" x="0.0" y="55.333332061767578" width="393" height="51.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DOi-FJ-CPU" id="bZk-4h-9EC">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="51.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Deadline" id="RJe-hv-EGd">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="hCY-1T-41m">
+                                        <rect key="frame" x="0.0" y="162.99999809265137" width="393" height="51.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hCY-1T-41m" id="ZkR-b6-Eeq">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="51.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Section-3" id="eO3-oU-5oh">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="WCh-fe-0NN">
+                                        <rect key="frame" x="0.0" y="270.66666603088379" width="393" height="51.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WCh-fe-0NN" id="smQ-5U-8Rh">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="51.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="E6y-Wj-lUd" id="G7D-am-PM8"/>
+                            <outlet property="delegate" destination="E6y-Wj-lUd" id="Rqq-Av-di3"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IaP-WC-2DU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-158" y="-4"/>
         </scene>
     </scenes>
     <resources>
