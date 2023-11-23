@@ -16,6 +16,7 @@
 		1AC8BA3A2B00E81100FF6B5B /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8BA392B00E81100FF6B5B /* TaskItem.swift */; };
 		1AC8BA3D2B00E84400FF6B5B /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8BA3C2B00E84400FF6B5B /* Date+Ext.swift */; };
 		1AC8BA412B00F7A800FF6B5B /* TaskItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8BA402B00F7A800FF6B5B /* TaskItemTableViewCell.swift */; };
+		1AC9F3072B0D2B0C00C05F62 /* TaskItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC9F3062B0D2B0C00C05F62 /* TaskItemTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		1AC8BA392B00E81100FF6B5B /* TaskItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItem.swift; sourceTree = "<group>"; };
 		1AC8BA3C2B00E84400FF6B5B /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		1AC8BA402B00F7A800FF6B5B /* TaskItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemTableViewCell.swift; sourceTree = "<group>"; };
+		1AC9F3062B0D2B0C00C05F62 /* TaskItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				1A03D8D42AFFB31700F28989 /* TaskMasterViewController.swift */,
+				1AC9F3062B0D2B0C00C05F62 /* TaskItemTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				1AC8BA3A2B00E81100FF6B5B /* TaskItem.swift in Sources */,
 				1AC8BA3D2B00E84400FF6B5B /* Date+Ext.swift in Sources */,
 				1AC8BA412B00F7A800FF6B5B /* TaskItemTableViewCell.swift in Sources */,
+				1AC9F3072B0D2B0C00C05F62 /* TaskItemTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

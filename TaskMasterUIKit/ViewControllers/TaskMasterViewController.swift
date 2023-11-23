@@ -31,6 +31,47 @@ class TaskMasterViewController: UIViewController{
         barButtonAdd.isEnabled = !taskItemsTableView.isEditing
         barButtonEdit.title = taskItemsTableView.isEditing ? "Done" : "Edit"
     }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        print("going to detail view, \(String(describing: segue.identifier))")
+        print(segue.destination)
+        
+        
+        if segue.identifier == "Modal_AddTask",
+           let navController = (segue.destination as? UINavigationController),
+           let toDoItemViewController = navController.topViewController as? TaskItemTableViewController{
+            
+            toDoItemViewController.onTaskItemChanged = updateDataSource
+        }
+        
+        else if let toDoItemViewController = segue.destination as? TaskItemTableViewController{
+            
+            toDoItemViewController.onTaskItemChanged = updateDataSource
+            
+            if segue.identifier == "Segue_ViewEditTask",
+               let selectedRow = taskItemsTableView.indexPathForSelectedRow?.row
+            {
+                toDoItemViewController.taskItem = data[selectedRow]
+            }
+        }
+    }
+    
+    private func updateDataSource(taskItem: TaskItem){
+        
+        if let existingToDoIndex = data.indices.first(where: { data[$0].id == taskItem.id }){
+            data[existingToDoIndex] = taskItem
+            let iPath = IndexPath(item: existingToDoIndex, section: 0)
+            taskItemsTableView.reloadRows(at: [iPath], with: .automatic)
+        }
+        else{
+            data.append(taskItem)
+            taskItemsTableView.insertRows(at: [IndexPath(item: data.count - 1, section: 0)], with: .automatic)
+        }
+    }
+    
+    
 }
 
 //MARK: - UITableView Delegates

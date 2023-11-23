@@ -58,7 +58,7 @@ extension TaskItemTableViewCell{
     private var timeLabelUpdateInterval: DispatchTime? {
         // FIXME: calculate update interval
         
-        guard let date = taskItem.deadline else { return nil }
+        guard let date = taskItem.remindTime else { return nil }
         
         let secondsAgo = Int(Date().timeIntervalSince(date))
 
@@ -79,7 +79,7 @@ extension TaskItemTableViewCell{
     
     private var deadlineColor: UIColor {
         // FIXME: calculate update interval
-        if let deadline = taskItem.deadline{
+        if let deadline = taskItem.remindTime{
             if (deadline < .now + 5) && !taskItem.completed{
                 return .red
             }
@@ -89,7 +89,7 @@ extension TaskItemTableViewCell{
     
     private var taskDeadline: String {
         
-        guard let deadline = taskItem.deadline else { return "" }
+        guard let deadline = taskItem.remindTime else { return "" }
         
         if taskItem.completed{
             return "Deadline \(deadline.formatted(date: .abbreviated, time: .shortened))"
