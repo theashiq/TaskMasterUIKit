@@ -96,8 +96,8 @@ extension TaskMasterViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            tableView.deleteRows(at: [indexPath], with: .fade)
             data.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             // TODO: Delete from DB
         }
     }
