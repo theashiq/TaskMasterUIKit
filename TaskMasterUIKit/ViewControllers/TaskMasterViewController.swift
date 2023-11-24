@@ -23,6 +23,7 @@ class TaskMasterViewController: UIViewController{
         // Do any additional setup after loading the view.
         taskItemsTableView.delegate = self
         taskItemsTableView.dataSource = self
+        taskItemsTableView.rowHeight = 90
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
@@ -89,9 +90,9 @@ extension TaskMasterViewController: UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         

@@ -15,6 +15,7 @@ class TaskItemTableViewController: UITableViewController {
     @IBOutlet weak var textTitle: UITextField!
     @IBOutlet weak var textNotes: UITextView!
     @IBOutlet weak var datePickerRemindTime: UIDatePicker!
+    @IBOutlet weak var switchMarkComplete: UISwitch!
     @IBOutlet weak var switchRemind: UISwitch!
     @IBOutlet weak var barButtonCancel: UIBarButtonItem!
     @IBOutlet weak var barButtonSubmit: UIBarButtonItem!
@@ -23,9 +24,10 @@ class TaskItemTableViewController: UITableViewController {
     
     var taskItem: TaskItem!
     var onTaskItemChanged: ((TaskItem)->Void)?
+    var indexPathForDatePicker: IndexPath = IndexPath(row: 1, section: 1)
     
     private var inputsValid: Bool{
-        textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0 > 0
+        textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0 > 1
     }
     
     private var displayMode: DisplayMode = .create{
@@ -46,7 +48,9 @@ class TaskItemTableViewController: UITableViewController {
             textTitle.isEnabled = enableInputs
             textNotes.isEditable = enableInputs
             switchRemind.isEnabled = enableInputs
-            datePickerRemindTime.isEnabled = enableInputs
+            datePickerRemindTime.isEnabled = enableInputs && switchRemind.isOn
+            
+            barButtonSubmit.isEnabled = inputsValid
         }
     }
     
@@ -54,8 +58,8 @@ class TaskItemTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        displayMode = taskItem == nil ? .create : .viewOrEdit(false)
         populateUI()
+        displayMode = taskItem == nil ? .create : .viewOrEdit(false)
     }
     
     @IBAction func onBarButtonCancelPressed(_ sender: UIBarButtonItem) {
@@ -68,6 +72,7 @@ class TaskItemTableViewController: UITableViewController {
             
             if editing {
                 populateUI()
+                barButtonSubmit.isEnabled = true // set as edit button
             }
             else{
                 goBack()
@@ -92,10 +97,22 @@ class TaskItemTableViewController: UITableViewController {
     }
     
     @IBAction func onTitleEditingEnded(_ sender: UITextField) {
+        barButtonSubmit.isEnabled = inputsValid
     }
     
+    @IBAction func onSwitchMarkCompleteChanged(_ sender: UISwitch) {
+        if taskItem != nil{
+            taskItem.completed = switchMarkComplete.isOn
+            onTaskItemChanged?(taskItem)
+        }
+        
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
+    }
     @IBAction func onSwitchRemindChanged(_ sender: UISwitch) {
         datePickerRemindTime.isEnabled = switchRemind.isOn
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
     }
     
     private func goBack() {
@@ -120,15 +137,14 @@ class TaskItemTableViewController: UITableViewController {
                 id:             existingID,
                 title:          textTitle.text!,
                 notes:          textNotes.text!,
-                creationTime:   taskItem.creationTime,
-                remindTime:     switchRemind.isOn ? datePickerRemindTime.date : nil
+                completed:      switchMarkComplete.isOn,
+                remindTime:     !switchMarkComplete.isOn && switchRemind.isOn ? datePickerRemindTime.date : nil
             )
         }
         else{
             taskItem = TaskItem(
                 title:          textTitle.text!,
                 notes:          textNotes.text!,
-                creationTime:   .now,
                 remindTime:     switchRemind.isOn ? datePickerRemindTime.date : nil
             )
         }
@@ -140,13 +156,30 @@ class TaskItemTableViewController: UITableViewController {
     private func populateUI(){
         textTitle.text = taskItem?.title
         textNotes.text = taskItem?.notes
+        switchMarkComplete.isOn = taskItem?.completed ?? false
         switchRemind.isOn = taskItem?.remind ?? true
         datePickerRemindTime.date = taskItem?.remindTime ?? .now + 60
         datePickerRemindTime.isEnabled = switchRemind.isOn
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.section == 2 ? 120 : 60
+        
+        if indexPath.section == 0 {
+            return taskItem == nil ? 0 : 60
+        }
+        else if indexPath.section == 2{
+            if indexPath.row == 0 {
+                return switchMarkComplete.isOn ? 0 : 60
+            }
+            else if indexPath.row == 1{
+                return switchRemind.isOn && !switchMarkComplete.isOn ? 60 : 0
+            }
+        }
+        else if indexPath.section == 3{
+            return 120
+        }
+        
+        return 60
     }
 }
 
