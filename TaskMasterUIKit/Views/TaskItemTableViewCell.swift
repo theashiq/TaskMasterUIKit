@@ -19,7 +19,6 @@ class TaskItemTableViewCell: UITableViewCell {
     private var delegate: TaskItemTableViewCellDelegate?
     private var taskItem: TaskItem!
     private var workTimeLabelUpdate: DispatchWorkItem!
-    
     //MARK: - Functions
     @IBAction func buttonToggleCompletionPressed(_ sender: UIButton) {
         delegate?.toggleCompletion(sender: self)
@@ -46,7 +45,6 @@ class TaskItemTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         workTimeLabelUpdate?.cancel()
-        print("---> prepareForReuse \(self.taskItem.title)")
     }
     
     
