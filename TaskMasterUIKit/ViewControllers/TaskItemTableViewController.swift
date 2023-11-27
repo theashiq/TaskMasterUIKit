@@ -21,11 +21,10 @@ class TaskItemTableViewController: UITableViewController {
     @IBOutlet weak var barButtonSubmit: UIBarButtonItem!
     
     //MARK: - Properties
-    
     var taskItem: TaskItem!
     var onTaskItemChanged: ((TaskItem)->Void)?
-    var indexPathForDatePicker: IndexPath = IndexPath(row: 1, section: 1)
     
+    private var indexPathForDatePicker: IndexPath = IndexPath(row: 1, section: 1)
     private var inputsValid: Bool{
         textTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0 > 1
     }
@@ -60,6 +59,43 @@ class TaskItemTableViewController: UITableViewController {
         super.viewDidLoad()
         populateUI()
         displayMode = taskItem == nil ? .create : .viewOrEdit(false)
+        NotificationCenter.default.addObserver(self, selector: #selector(appEnteredForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
+        updateRemindSwitch()
+    }
+    
+    @objc func appEnteredForeground(){
+        NotificationManager.isAuthorized { authorized in
+            DispatchQueue.main.async{
+                self.updateRemindSwitch()
+            }
+        }
+    }
+    
+    private func updateRemindSwitch(){
+        
+        guard let notificationAuthorized = NotificationManager.authorized else{
+            NotificationManager.requestAuthorization { _ in
+                DispatchQueue.main.async{
+                    self.updateRemindSwitch()
+                }
+            }
+            return
+        }
+        
+        if displayMode == .viewOrEdit(false) { //view mode
+            
+            switchRemind.isOn = taskItem?.remind ?? notificationAuthorized
+            switchRemind.isEnabled = false
+            
+        }
+        else{
+            switchRemind.isOn = notificationAuthorized
+            switchRemind.isEnabled = notificationAuthorized
+        }
+        datePickerRemindTime.isEnabled = switchRemind.isOn && switchRemind.isEnabled
+        
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
     }
     
     @IBAction func onBarButtonCancelPressed(_ sender: UIBarButtonItem) {
@@ -110,7 +146,9 @@ class TaskItemTableViewController: UITableViewController {
         self.tableView.endUpdates()
     }
     @IBAction func onSwitchRemindChanged(_ sender: UISwitch) {
+        
         datePickerRemindTime.isEnabled = switchRemind.isOn
+        
         self.tableView.beginUpdates()
         self.tableView.endUpdates()
     }
@@ -157,6 +195,7 @@ class TaskItemTableViewController: UITableViewController {
         textTitle.text = taskItem?.title
         textNotes.text = taskItem?.notes
         switchMarkComplete.isOn = taskItem?.completed ?? false
+        
         switchRemind.isOn = taskItem?.remind ?? true
         datePickerRemindTime.date = taskItem?.remindTime ?? .now + 60
         datePickerRemindTime.isEnabled = switchRemind.isOn
@@ -182,4 +221,5 @@ class TaskItemTableViewController: UITableViewController {
         return 60
     }
 }
+
 

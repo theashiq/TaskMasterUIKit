@@ -15,7 +15,7 @@ struct TaskItem: Identifiable, Codable {
     var creationTime: Date = .now
     var remindTime: Date? = nil
     var remind: Bool{
-        remindTime != nil && remindTime! > .now && !completed
+        remindTime != nil && /*remindTime! > .now &&*/ !completed
     }
     static var dummies: [TaskItem]{
         [

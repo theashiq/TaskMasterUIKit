@@ -23,6 +23,7 @@ class TaskMasterViewController: UIViewController{
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         navigationController?.navigationBar.prefersLargeTitles = true
+        NotificationManager.requestAuthorization(callback: nil)
         dataProvider.delegate = self
         dataProvider.loadData()
     }
@@ -65,7 +66,15 @@ class TaskMasterViewController: UIViewController{
         }
     }
     
-    
+    private func setNotificationForTask(at index: Int){
+        if let task = self.dataProvider.taskAt(index: index){
+            NotificationManager.cancelNotification(id: task.id.uuidString)
+            
+            if task.remind, let time = task.remindTime{
+                NotificationManager.setNotification(id: task.id.uuidString, title: task.title, body: task.notes, time: time)
+            }
+        }
+    }
 }
 
 //MARK: - UITableView Delegates
@@ -92,6 +101,9 @@ extension TaskMasterViewController: UITableViewDelegate, UITableViewDataSource{
         
         if editingStyle == .delete {
             dataProvider.deleteTask(index: indexPath.row)
+            if let deletedTask = dataProvider.taskAt(index: indexPath.row){
+                NotificationManager.cancelNotification(id: deletedTask.id.uuidString)
+            }
         }
     }
     
@@ -120,17 +132,16 @@ extension TaskMasterViewController: DataProviderDelegate{
 
     func onDataLoaded() {
         DispatchQueue.main.async {
-            print("datadatadata onDataLoaded \(self.dataProvider.data.count)")
             self.taskItemsTableView.delegate = self
             self.taskItemsTableView.dataSource = self
             self.taskItemsTableView.reloadData()
-    //        taskItemsTableView.rowHeight = 90
         }
     }
     
     func onNewTaskAdded(newTaskIndex: Int) {
         DispatchQueue.main.async{
             self.taskItemsTableView.insertRows(at: [IndexPath(item: newTaskIndex, section: 0)], with: .automatic)
+            self.setNotificationForTask(at: newTaskIndex)
         }
     }
     
@@ -139,6 +150,7 @@ extension TaskMasterViewController: DataProviderDelegate{
         DispatchQueue.main.async{
             let iPath = IndexPath(item: updatedTaskIndex, section: 0)
             self.taskItemsTableView.reloadRows(at: [iPath], with: .automatic)
+            self.setNotificationForTask(at: updatedTaskIndex)
         }
     }
     
@@ -154,7 +166,12 @@ extension TaskMasterViewController: DataProviderDelegate{
     }
     
     func onDataError(error: Error) {
-        // TODO: show error dialogue
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Error Occurred", message: error.localizedDescription, preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     
